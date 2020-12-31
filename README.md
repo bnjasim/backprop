@@ -11,9 +11,14 @@ sigmoid in the output layer.
     net = neuralnet(n_input, n_hidden, n_hidden);
     n_epochs = 1000; % increase this for better fit
     lr = 0.3; % learning rate
+    lambda = 0.1;
      
     % Train the Network
-    net = train_neuralnet(net, train_data, train_labels, n_epochs, lr);
+    net = train_neuralnet(net, train_data, train_labels, n_epochs, lr, lambda);
      
     % Test the Network
     outputs = predict_neuralnet(net, test_data);
+
+
+### Updates
+- (31/Dec/2020): Regularization is added!

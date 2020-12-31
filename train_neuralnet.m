@@ -1,7 +1,8 @@
-function net = train_neuralnet(net, data, labels, n_epochs, lr)
+function net = train_neuralnet(net, data, labels, n_epochs, lr, lambda)
     
     % n_epochs = 1000;
     % lr=0.5;
+    % lambda = 1;
 
     disp('Training!!!');
 
@@ -34,9 +35,9 @@ function net = train_neuralnet(net, data, labels, n_epochs, lr)
         delta2 = net.Theta2 * delta3(2:end) .* transpose(A1d);
 
         % Update the weights
-        net.Theta3 = net.Theta3 - lr * delta * transpose(A2);
-        net.Theta2 = net.Theta2 - lr * transpose(A1) * transpose(delta3(2:end));
-        net.Theta1 = net.Theta1 - lr * transpose(input) * transpose(delta2(2:end));
+        net.Theta3 = net.Theta3 - lr * (delta * transpose(A2) + lambda * [0; delta(2:end)]);
+        net.Theta2 = net.Theta2 - lr * (transpose(A1) * transpose(delta3(2:end)) + lambda * [zeros(1, size(net.Theta2, 2)); net.Theta2(2:end,:)]);
+        net.Theta1 = net.Theta1 - lr * (transpose(input) * transpose(delta2(2:end)) + lambda * [zeros(1, size(net.Theta1, 2)); net.Theta1(2:end,:)]);
 
         loss = 0.5 * (y - label)^2;
         total_loss = total_loss + loss;
